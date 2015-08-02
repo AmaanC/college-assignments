@@ -22,7 +22,6 @@ void setHead() {
         current = current->link;
     }
     head = current;
-    // printf("%d", head->value);
 }
 
 // When pos is 0, it means the node will be added right after root, 1 means 1 position after that and so on
@@ -36,7 +35,6 @@ void add(int value, int pos) {
 
     setHead();
     if (pos < 0) {
-        // printf("Appending to the end\n");
         head->link = newNode;
         return;
     }
@@ -126,16 +124,6 @@ int main() {
     int value = 0, pos = 0;
 
     init();
-    // add(5, 0); // 5
-    // add(43, 91); // Overflow. Ignoring call.
-    // add(4, -1); // 5, 4
-    // add(33, 1); // 5, 33, 4
-    // add(8, -1); // 5, 33, 4, 8
-    // rem(0); // 33, 4, 8
-    // remByVal(4); // 33, 8
-    // remByVal(2); // Could not find node.
-
-    // display();
 
     while (choice != 6) {
         printf("\n1) Add to pos (0 = start, -1 = end)\n2) Remove by pos (0-n)\n3) Remove by value\n4) Display\n5) Clear\n6) Exit\n");
