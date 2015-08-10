@@ -1,0 +1,18 @@
+#!/bin/bash
+
+cd ~
+tar -xvzf jdk*.tar.gz
+sudo mkdir /usr/lib/jvm
+sudo mkdir /usr/lib/jvm/jdk-v
+
+cd jdk*
+sudo mv * /usr/lib/jvm/jdk-v
+
+echo "
+JAVA_HOME=/usr/lib/jvm/jdk-v
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+
+export JAVA_HOME
+export JRE_HOME
+export PATH
+" | sudo tee --append /etc/profile
