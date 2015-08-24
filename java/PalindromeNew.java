@@ -13,6 +13,7 @@ class PalindromeNew {
         while (i < len / 2) {
             if (inp.charAt(i) != inp.charAt(len - i - 1)) {
                 isPalindrome = false;
+                break;
             }
             i++;
         }
