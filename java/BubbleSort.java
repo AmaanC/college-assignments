@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.*;
 
 class BubbleSort {
     int[] sort(int[] arr) {
@@ -15,7 +16,15 @@ class BubbleSort {
         return arr;
     }
     public static void main(String[] args) {
-        int a[] = {5,93,0,22,-10};
+        Scanner sc = new Scanner(System.in);
+        int l = 0;
+        System.out.println("Enter length of array: ");
+        l = sc.nextInt();
+        int a[] = new int[l];
+        for (int i = 0; i < l; i++) {
+            a[i] = sc.nextInt();
+        }
+
         BubbleSort b = new BubbleSort();
         b.sort(a);
         System.out.println("Sorted array is:");
