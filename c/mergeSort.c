@@ -19,7 +19,7 @@ int* mergeSort(int a[], int start, int end) {
     int *right;
 
     int i, j, c;
-    int max = -999999;
+    int min = 999999;
     if (len <= 1) {
         printf("Only 1 elem: %d\n", a[start]);
         result[0] = a[start];
@@ -37,18 +37,18 @@ int* mergeSort(int a[], int start, int end) {
     i = j = c = 0;
     while ((i < leftLen || j < rightLen) && c < len) {
         if (i < leftLen) {
-            max = left[i];
+            min = left[i];
         }
         i++;
-        if (j < rightLen && right[j] > max) {
-            max = right[j];
+        if (j < rightLen && right[j] < min) {
+            min = right[j];
             j++;
             i--;
         }
-        // printf("Selected: %d, %d\n", max, left[i]);
-        result[c] = max;
+        // printf("Selected: %d, %d\n", min, left[i]);
+        result[c] = min;
         c++;
-        max = -999999;
+        min = 999999;
     }
     return result;
 };
