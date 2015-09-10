@@ -125,14 +125,15 @@ var ctx = canvas.getContext('2d');
 var STEP_SIZE = 30;
 var HIGH_HEIGHT = 20;
 
-var drawWaveform = function(x, y, historyArr) {
+var drawWaveform = function(x, y, historyArr, len) {
     // Draws a waveform given a history array and positions
+    var length = len || historyArr.length;
     if (historyArr.length <= 0) {
         return;
     }
     ctx.beginPath();
     ctx.moveTo(x, y - HIGH_HEIGHT * historyArr[0]);
-    for (var i = 0; i < historyArr.length; i++) {
+    for (var i = 0; i < length; i++) {
         ctx.lineTo(x + STEP_SIZE * i, y - HIGH_HEIGHT * historyArr[i]);
         ctx.lineTo(x + STEP_SIZE * (i + 1), y - HIGH_HEIGHT * historyArr[i]);
     }
@@ -146,10 +147,10 @@ var drawLoop = function() {
     drawWaveform(30, 30, clockHistory);
 
     ctx.fillText('Q0', 0, 70);
-    drawWaveform(30, 70, q0History);
+    drawWaveform(30, 70, q0History, q0History.length - 1);
 
     ctx.fillText('Q1', 0, 110);
-    drawWaveform(30, 110, q1History);
+    drawWaveform(30, 110, q1History, q1History.length - 1);
 
     requestAnimationFrame(drawLoop);
 };
