@@ -2,8 +2,9 @@ var FlipFlop = function() {
   var ff = {};
   ff.prevQ = 0;
   ff.nextQ = 0;
+  ff.isTriggered = false;
 
-  ff.process = function(j, k, triggered) {
+  ff.process = function(j, k) {
     var temp = ff.prevQ;
     ff.prevQ = ff.nextQ;
     if (j === 0 && k === 0) {
@@ -15,11 +16,18 @@ var FlipFlop = function() {
     else if (j === 1 && k === 0) {
       ff.nextQ = 1;
     }
-    else if (j === 1 && k === 1 && triggered === true) {
+    else if (j === 1 && k === 1 && ff.isTriggered === true) {
       ff.nextQ = !ff.prevQ;
+    }
+    if (ff.isTriggered === true) {
+      ff.isTriggered = false;
     }
     return Number(ff.nextQ);
   };
+
+  ff.trigger = function() {
+    ff.isTriggered = true;
+  }
   return ff;
 };
 
@@ -29,24 +37,25 @@ var ff1 = new FlipFlop();
 var clear = function() {
   J = 0;
   K = 1;
-  isTriggered = true;
+  ff0.trigger();
   justCleared = true;
   prevContents = state.textContent = '';
+  tick();
 };
 
 var stateElem = document.getElementById('state');
-var isTriggered = false;
 
 document.getElementById('trigger').addEventListener('mousedown', function() {
-  isTriggered = true;
+  ff0.trigger();
+  tick();
 });
 document.getElementById('up').addEventListener('mousedown', function() {
-  clear();
   countingDown = false;
+  clear();
 });
 document.getElementById('down').addEventListener('mousedown', function() {
-  clear();
   countingDown = true;
+  clear();
 });
 document.getElementById('clear').addEventListener('mousedown', clear);
 
@@ -57,18 +66,18 @@ var J = 1;
 var K = 1;
 var prevContents = '';
 var countingDown = false;
-var loop = function() {
-  if (isTriggered && !justCleared) {
+var tick = function() {
+  if (!justCleared && ff0.isTriggered) {
     prevContents = state.textContent + ', ';
   }
   
   prevQ0 = Q0;
-  Q0 = ff0.process(J, K, isTriggered);
+  Q0 = ff0.process(J, K);
   if (prevQ0 > Q0) {
     console.log('ff1 triggered');
     ff1.isTriggered = true;
   }
-  Q1 = ff1.process(J, K, ff1.isTriggered);
+  Q1 = ff1.process(J, K);
   
   var o1 = Q1;
   var o0 = Q0;
@@ -79,19 +88,12 @@ var loop = function() {
   }
   
   state.textContent = prevContents + o1 + '' + o0;
-  if (isTriggered) {
-    isTriggered = false;
-  }
-  if (ff1.isTriggered) {
-    ff1.isTriggered = false;
-  }
   
   if (justCleared) {
     J = K = 1;
     justCleared = false;
   }
   
-  setTimeout(loop, 100);
 };
 
-loop();
+tick();
