@@ -32,7 +32,7 @@ var FlipFlop = function() {
 
     ff.trigger = function() {
         ff.isTriggered = true;
-    }
+    };
 
     ff.connectTo = function(obj) {
         ff.connection = obj;
