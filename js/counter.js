@@ -3,12 +3,13 @@ var FlipFlop = function() {
   ff.prevQ = 0;
   ff.nextQ = 0;
   ff.isTriggered = false;
+  ff.connection = {};
 
   ff.process = function(j, k) {
-    var temp = ff.prevQ;
+    var prevOutput = ff.prevQ;
     ff.prevQ = ff.nextQ;
     if (j === 0 && k === 0) {
-      ff.nextQ = temp;
+      ff.nextQ = prevOutput;
     }
     else if (j === 0 && k === 1) {
       ff.nextQ = 0;
@@ -22,17 +23,26 @@ var FlipFlop = function() {
     if (ff.isTriggered === true) {
       ff.isTriggered = false;
     }
+
+    if (ff.connection && ff.prevQ > ff.nextQ) {
+      ff.connection.isTriggered = true;
+    }
     return Number(ff.nextQ);
   };
 
   ff.trigger = function() {
     ff.isTriggered = true;
   }
+
+  ff.connectTo = function(obj) {
+    ff.connection = obj;
+  };
   return ff;
 };
 
 var ff0 = new FlipFlop();
 var ff1 = new FlipFlop();
+ff0.connectTo(ff1);
 
 var clear = function() {
   J = 0;
@@ -73,10 +83,6 @@ var tick = function() {
   
   prevQ0 = Q0;
   Q0 = ff0.process(J, K);
-  if (prevQ0 > Q0) {
-    console.log('ff1 triggered');
-    ff1.isTriggered = true;
-  }
   Q1 = ff1.process(J, K);
   
   var o1 = Q1;
