@@ -24,7 +24,7 @@ var FlipFlop = function() {
       ff.isTriggered = false;
     }
 
-    if (ff.connection && ff.prevQ > ff.nextQ) {
+    if (ff.connection && ff.prevQ > ff.nextQ) { // Negative edge triggered
       ff.connection.isTriggered = true;
     }
     return Number(ff.nextQ);
