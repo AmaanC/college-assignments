@@ -45,11 +45,13 @@ var ff1 = new FlipFlop();
 ff0.connectTo(ff1);
 
 var clear = function() {
-    J = 0;
-    K = 1;
-    ff0.trigger();
+    ff0.nextQ = 0;
+    ff1.nextQ = 0;
     justCleared = true;
     prevContents = state.textContent = '';
+    q0History = [];
+    q1History = [];
+    clockHistory = [];
     tick();
 };
 
@@ -76,9 +78,17 @@ var J = 1;
 var K = 1;
 var prevContents = '';
 var countingDown = false;
+
+var clockHistory = [];
+var q0History = [];
+var q1History = [];
+
 var tick = function() {
     if (!justCleared && ff0.isTriggered) {
         prevContents = state.textContent + ', ';
+    }
+    if (ff0.isTriggered) {
+        clockHistory.push(1);
     }
     
     prevQ0 = Q0;
@@ -92,6 +102,12 @@ var tick = function() {
         o1 = Number(!o1);
         o0 = Number(!o0);
     }
+
+    clockHistory.push(0);
+    q1History.push(o1);
+    q1History.push(o1);
+    q0History.push(o0);
+    q0History.push(o0);
     
     state.textContent = prevContents + o1 + '' + o0;
     
@@ -99,7 +115,44 @@ var tick = function() {
         J = K = 1;
         justCleared = false;
     }
-    
+
+};
+
+
+
+var canvas = document.getElementById('waveforms');
+var ctx = canvas.getContext('2d');
+var STEP_SIZE = 30;
+var HIGH_HEIGHT = 20;
+
+var drawWaveform = function(x, y, historyArr) {
+    // Draws a waveform given a history array and positions
+    if (historyArr.length <= 0) {
+        return;
+    }
+    ctx.beginPath();
+    ctx.moveTo(x, y - HIGH_HEIGHT * historyArr[0]);
+    for (var i = 0; i < historyArr.length; i++) {
+        ctx.lineTo(x + STEP_SIZE * i, y - HIGH_HEIGHT * historyArr[i]);
+        ctx.lineTo(x + STEP_SIZE * (i + 1), y - HIGH_HEIGHT * historyArr[i]);
+    }
+    ctx.stroke();
+};
+
+var drawLoop = function() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillText('Clock', 0, 30);
+    drawWaveform(30, 30, clockHistory);
+
+    ctx.fillText('Q0', 0, 70);
+    drawWaveform(30, 70, q0History);
+
+    ctx.fillText('Q1', 0, 110);
+    drawWaveform(30, 110, q1History);
+
+    requestAnimationFrame(drawLoop);
 };
 
 tick();
+drawLoop();
