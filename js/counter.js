@@ -140,17 +140,21 @@ var drawWaveform = function(x, y, historyArr, len) {
     ctx.stroke();
 };
 
+var complementText = '';
+ctx.font = '15px Arial';
+var X_OFFSET = 50;
 var drawLoop = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    complementText = countingDown ? '\'' : '';
 
     ctx.fillText('Clock', 0, 30);
-    drawWaveform(30, 30, clockHistory);
+    drawWaveform(X_OFFSET, 30, clockHistory);
 
-    ctx.fillText('Q0', 0, 70);
-    drawWaveform(30, 70, q0History, q0History.length - 1);
+    ctx.fillText('Q0' + complementText, 0, 70);
+    drawWaveform(X_OFFSET, 70, q0History, q0History.length - 1);
 
-    ctx.fillText('Q1', 0, 110);
-    drawWaveform(30, 110, q1History, q1History.length - 1);
+    ctx.fillText('Q1' + complementText, 0, 110);
+    drawWaveform(X_OFFSET, 110, q1History, q1History.length - 1);
 
     requestAnimationFrame(drawLoop);
 };
