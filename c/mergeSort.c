@@ -21,18 +21,13 @@ int* mergeSort(int a[], int start, int end) {
     int i, j, c;
     int min = 999999;
     if (len <= 1) {
-        printf("Only 1 elem: %d\n", a[start]);
         result[0] = a[start];
         return result;
     }
 
     left = mergeSort(a, start, mid);
-    printf("L: ");
-    print_arr(left, leftLen);
     right = mergeSort(a, mid, end);
     
-    printf("R: ");
-    print_arr(right, rightLen);
 
     i = j = c = 0;
     while ((i < leftLen || j < rightLen) && c < len) {
