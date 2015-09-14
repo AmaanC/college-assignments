@@ -11,7 +11,7 @@ class VectorStudents {
     public static void main(String[] args) {
         int choice = 0;
         Scanner sc = new Scanner(System.in);
-        Vector students = new Vector();
+        Vector<String> students = new Vector<String>();
         String name;
         while (true) {
             System.out.println("");
