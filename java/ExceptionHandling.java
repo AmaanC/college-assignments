@@ -1,10 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-class IncorrectTypeException extends Exception {
-
-}
-
 class ExceptionHandling {
     public static void main(String[] args) {
         int num;
