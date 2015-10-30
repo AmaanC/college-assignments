@@ -24,7 +24,6 @@ void push(struct stack *s, int value) {
 char seeTop(struct stack *s) {
     int top = s->top;
     if (top < 0) {
-        printf("Underflow.\n");
         return;
     }
     char retVal = s->arr[top];
@@ -53,9 +52,6 @@ int getValueForOperator(char op) {
     // Using BODMAS
     int val = 0;
     switch(op) {
-        case ')':
-            val = 5;
-            break;
         case '/':
             val = 4;
             break;
@@ -68,12 +64,12 @@ int getValueForOperator(char op) {
         case '-':
             val = 1;
             break;
-        defauult:
+        default:
             val = 0;
             break;
     }
     return val;
-};
+}
 
 int higherPrecedence(char op1, char op2) {
     // Returns 1 if op1 has higher precedence. 0 otherwise
@@ -83,7 +79,7 @@ int higherPrecedence(char op1, char op2) {
 }
 
 int main() {
-    char eqn[] = "(a+b)*(c+d)";
+    char eqn[] = "(a+b)*(c+d/e)";
     char result[10] = "";
     int eqI = 0, resI = 0;
     char c;
@@ -99,43 +95,34 @@ int main() {
         eqI++;
 
         if (operand(c)) {
-            // If it isn't an operator, right it down as it is
             result[resI] = c;
             resI++;
         }
-        else if (c == '(') {
-            push(&s, c);
-        }
         else {
             // It is an operator
-            if (s.top < 0 || seeTop(&s) == '(') {
+            if (c == '(') {
+                push(&s, c);
+            }
+            else if (c == ')') {
+                temp = pop(&s);
+                while (temp != '(' && s.top >= 0) {
+                    result[resI] = temp;
+                    resI++;
+                    temp = pop(&s);
+                }
+            }
+            else if (s.top < 0 || seeTop(&s) == '(' || higherPrecedence(c, seeTop(&s)) == 1) {
                 // If the stack is empty, or if there's a ( on the top or if the current operator
                 // has a higher precedence than the top of the stack, push the current operator
                 push(&s, c);
             }
-            else if (higherPrecedence(c, seeTop(&s)) == 1) {
-                if (c != ')') {
-                    push(&s, c);
-                }
-            }
             else {
-                while (higherPrecedence(c, seeTop(&s)) == 0) {
+                while (higherPrecedence(c, seeTop(&s)) == 0 && s.top >= 0) {
                     printf("Popping: %c\n", seeTop(&s));
                     result[resI] = pop(&s);
                     resI++;
                 }
                 push(&s, c);
-            }
-
-            if (c == ')') {
-                do {
-                    temp = pop(&s);
-                    if (temp != '(') {
-                        result[resI] = temp;
-                        resI++;
-                    }
-                }
-                while (temp != '(');
             }
         }
     }
@@ -145,10 +132,5 @@ int main() {
         resI++;
     }
     printf("%s\n", result);
-    /*
-    for (resI = 0; resI < MAX; resI++) {
-        printf("%c, ", s.arr[resI]);
-    }
-    */
     return 0;
 }

@@ -1,5 +1,5 @@
-
 #include <stdio.h>
+#include <stdlib.h>
 
 #define MAX 10
 
@@ -31,7 +31,7 @@ void push(struct nodeStack *s, struct node *node) {
 struct node* pop(struct nodeStack *s) {
     int top = s->top;
     struct node *retNode;
-    retNode = (struct node*)malloc(sizeof(struct node));
+    retNode = malloc(sizeof(struct node));
 
     if (top < 0) {
         printf("Underflow.\n");
@@ -45,7 +45,7 @@ struct node* pop(struct nodeStack *s) {
 
 struct node* createNode(char val) {
     struct node *retNode;
-    retNode = (struct node*)malloc(sizeof(struct node));
+    retNode = malloc(sizeof(struct node));
     retNode->val = val;
     return retNode;
 };
@@ -115,5 +115,6 @@ int main() {
     traversePreOrder(temp);
     printf("\n");
     traversePostOrder(temp);
+    printf("\n");
     return 0;
 }

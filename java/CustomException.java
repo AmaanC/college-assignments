@@ -9,7 +9,10 @@ class TooFewArgumentsException extends Exception {
 class CustomException {
     public static void main(String[] args) {
         try {
-            throw new TooFewArgumentsException("Missing arguments");
+            if (args.length <= 3) {
+                throw new TooFewArgumentsException("Missing arguments");
+            }
+            System.out.println("Finished.");
         }
         catch (TooFewArgumentsException e) {
             System.out.println(e);
