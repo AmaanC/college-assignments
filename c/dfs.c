@@ -2,19 +2,18 @@
 
 int graphValues[5] = {0, 1, 2, 3, 4};
 int graph[5][5] = {0};
-int visited[5] = {0}; // Meaning of values: 0 = unvisited, 1 = in queue, 2 = visited
+int visited[5] = {0}; // Meaning of values: 0 = unvisited, 2 = visited
 
 void dfs(int index) {
-    // Index of the starting value
-    int i = 0;
+    // `index` of the starting value
 
+    int i = 0;
     visited[index] = 2; // Visited
     printf("%d, ", graphValues[index]);
 
     for (i = 0; i < 5; i++) {
         if (graph[index][i] == 1 && visited[i] == 0) {
-            // printf("visited[%d] = %d\n", i, visited[i]);
-            // visited[i] = 1; // In queue
+            // Recursion FTW!
             dfs(i);
         }
     }
