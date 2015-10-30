@@ -30,6 +30,7 @@ void bfs(int index) {
 
 int main() {
     // Connect the nodes however you want:
+    // I've connected them like this http://d1gjlxt8vb0knt.cloudfront.net//wp-content/uploads/graph_representation12.png
     graph[0][1] = 1;
     graph[0][4] = 1;
 
