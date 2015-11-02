@@ -10,11 +10,11 @@ public class DigitalClock extends Applet implements Runnable {
 
     public void init() {
         // setBackground( Color.green); 
+          t = new Thread( this );
+          t.start();
     }
 
     public void start() {
-          t = new Thread( this );
-          t.start();
     }
 
     public void run() {
@@ -23,7 +23,7 @@ public class DigitalClock extends Applet implements Runnable {
 
                 Calendar cal = Calendar.getInstance();
 
-                SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss");
+                SimpleDateFormat formatter = new SimpleDateFormat("hh:mm:ss a");
                 Date date = cal.getTime();
                 timeString = formatter.format( date );
 
